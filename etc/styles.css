@@ -1,0 +1,93 @@
+header * {
+	margin: 3px;
+}
+
+footer * {
+	margin: 3px;
+}
+
+.bluebreak {
+	position: absolute;
+	bottom: 40%;
+	width: 100%;
+	border-bottom: 5px solid #ccccff;
+}
+
+#commentsbox {
+	position: relative;
+	width: 40%;
+	border: 1px solid #0066cc;
+	border-radius: 4px;
+	min-height: 550px;
+	margin: 3px;
+}
+
+#postcomment {
+	position: absolute;
+	bottom: 0px;
+	padding: 1rem;
+}
+
+/*#commentcontent {
+	position: absolute;
+	bottom: 0px;
+	padding: 1rem;
+}*/
+
+#comments {
+	/*position: relative;*/
+	margin: 0 8px;
+	max-height: 450px;
+	border: 1px solid black;
+	overflow-y: scroll;
+}
+
+.comment {
+	/*border: 1px solid black;*/
+	position: relative;
+	border-bottom: 1px solid #222222;
+	padding: 6px;
+	padding-bottom: 0;
+	margin: 6px;
+	margin-bottom: 0;
+}
+
+.comment .username, .comment .date {
+	color: #0099cc;
+	margin-bottom: 4px;
+}
+
+.comment .date {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+}
+
+.comment .panel {
+	position: absolute;
+	bottom: 6px;
+	right: 6px;
+}
+
+.comment .content {
+	margin-left: 0.5rem;
+	margin-bottom: 1.5rem;
+}
+
+.comment .delete {
+	color: Tomato;
+}
+
+#sendcomment {
+	border-top-left-radius: 0 !important;
+	border-bottom-left-radius: 0 !important;
+	margin-left: -1px;
+}
+
+#logindropdown {
+	width: 350px;
+}
+
+#registerdropdown {
+	width: 350px;
+}
