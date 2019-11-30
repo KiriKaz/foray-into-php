@@ -123,7 +123,7 @@ if(!isset($_SESSION['sessionid'])) {
 			</form>
 		</div>
 	</div>
-	LGB;
+LGB;
 
 	// 
 	// And also a register button:
@@ -160,7 +160,7 @@ if(!isset($_SESSION['sessionid'])) {
 			</form>
 		</div>
 	</div>
-	RGB;
+RGB;
 } else {
 	// Insert query for username from session/login id here.
 	$username = $_SESSION['sessionid'];

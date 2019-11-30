@@ -41,6 +41,21 @@ switch($_POST['action']) {
 		// else
 			// echo "Comment created.";
 		break;
+	case 'edit':
+		$server = ['localhost', 'root', '', 'data'];
+		$conn = new mysqli($server[0], $server[1], $server[2], $server[3]);
+
+		$comment_text = $_POST['comment'];
+		$comment_id = $_POST['commentId'];
+
+		$qry = $conn->prepare("UPDATE comments SET comment_content = ? WHERE comment_id = ?;");
+		$qry->bind_param('ss', $comment_text, $comment_id);
+		if(!$qry->execute())
+			echo "Error: " . $qry->error;
+		else
+			header("Location: comments.php", true, 302);
+			die();
+		break;
 	default:
 		header("Location: $referrer", true, 302);
 		die();

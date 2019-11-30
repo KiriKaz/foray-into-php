@@ -38,17 +38,22 @@ $username = $_SESSION['sessionid'] ?? "Anonymous";
 			<?php
 			$server = ['localhost', 'root', '', 'data'];
 			$conn = new mysqli($server[0], $server[1], $server[2], $server[3]);
+			date_default_timezone_set('America/Sao_Paulo');  // Com horário de verão. Claro.
 
 			$qry = $conn->prepare("SELECT * FROM comments ORDER BY comment_time DESC");
 			$qry->execute();
 			$result = $qry->get_result();
 			while($comments = $result->fetch_array(MYSQLI_ASSOC)) {
-				$time = date('h:ia d/m/y', $comments['comment_time']);
+				$time = date('h:ia d/m/y', $comments['comment_time'] - 3600); // ajuste de horário de verão
 				$adminpanel = "";
+				$editpanel = "";
 				if($username == 'Administrator') {
-					$adminpanel = "<a class='panelDelete' id='cid-{$comments['comment_id']}' href='#'' ><i class='fas fa-trash-alt delete'></i></a>";
+					$adminpanel = "<a class='panelDelete' id='cid-{$comments['comment_id']}' href='#' ><i class='fas fa-trash-alt delete'></i></a>";
 				}
 				$uname = $comments['user_uid'];
+				if($username == $uname) {
+					$editpanel = "<a class='panelEdit' id='cid-{$comments['comment_id']}' href='#' ><i class='fas fa-edit edit'></i></i></a>";
+				}
 				echo <<<CMM
 				<div class='comment'>
 					<p class='username $uname'>$uname</p>
@@ -56,9 +61,10 @@ $username = $_SESSION['sessionid'] ?? "Anonymous";
 					<p class='content'>{$comments['comment_content']}</p>
 					<div class='panel'>
 						$adminpanel
+						$editpanel
 					</div>
 				</div>
-				CMM;
+CMM;
 			}
 			$conn->close();
 			?>
@@ -85,7 +91,7 @@ $username = $_SESSION['sessionid'] ?? "Anonymous";
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-	<!-- Comment Admin Panel -->
+	<!-- Comment Panel -->
 	<script>
 		$(document).ready(function(){
 	        var ajaxurl = 'managecomment.php';
@@ -101,6 +107,14 @@ $username = $_SESSION['sessionid'] ?? "Anonymous";
 		            alert(response);
 		            location.reload();
 		        });
+		    });
+		    $('.panelEdit').click(function(){
+		        var clickBtnValue = $(this).attr('id');
+		        clickBtnValue = clickBtnValue.slice(4);
+		        var data = {'action': 'edit', 'commentid': clickBtnValue};
+		        $(document.body).append('<form id="20486320" action="updatecomment.php" method="POST">' + '<input type="hidden" name="action" value="edit"> <input type="hidden" name="commentid" value="' + clickBtnValue + '">' + '</form>');
+		        $("#20486320").submit();
+		        // $('<form action="updatecomment.php" method="POST">' + '<input type="hidden" name="action" value="edit"> <input type="hidden" name="commentid" value="' + clickBtnValue + '">' + '</form>').submit();
 		    });
 		    $('#postcomment').submit(function(event){
 		    	event.preventDefault();
